@@ -1,4 +1,4 @@
-![PHPStan Level max](https://img.shields.io/badge/PHPStan-level%207-brightgreen.svg?style=flat)
+![PHPStan Level max](https://img.shields.io/badge/PHPStan-level%20max-brightgreen.svg?style=flat)
 
 # PHP data
 
