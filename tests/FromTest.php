@@ -2,7 +2,6 @@
 
 namespace Flexboom\PhpData\Tests;
 
-use Flexboom\PhpData\Exceptions\ArrayEmptyExxception;
 use Flexboom\PhpData\Exceptions\ConstructorMissingException;
 use Flexboom\PhpData\Exceptions\ParameterInputMissingException;
 use Flexboom\PhpData\Tests\Classes\BasicExample;
