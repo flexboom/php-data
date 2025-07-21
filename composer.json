@@ -22,6 +22,6 @@
     "scripts": {
         "test": "./vendor/bin/phpunit tests",
         "code-style": "./vendor/bin/php-cs-fixer fix src --dry-run --diff",
-        "static-analytic": "./vendor/bin/phpstan"
+        "static-analytics": "./vendor/bin/phpstan"
     }
 }
