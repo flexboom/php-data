@@ -2,6 +2,7 @@
     "name": "flexboom/php-data",
     "type": "library",
     "license": "MIT",
+    "description": "Getting data from e.g. a API response and convert it to strongly typed data can be a hassle, this package addresses that.",
     "autoload": {
         "psr-4": {
             "Flexboom\\PhpData\\": "src/"
