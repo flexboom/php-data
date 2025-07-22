@@ -1,5 +1,5 @@
 ![PHPStan Level max](https://img.shields.io/badge/PHPStan-level%20max-brightgreen.svg?style=flat)
-![CI](https://github.com/github/docs/actions/workflows/main.yml/badge.svg?branch=main)
+[![CI](https://github.com/flexboom/php-data/actions/workflows/main.yml/badge.svg)](https://github.com/flexboom/php-data/actions/workflows/main.yml)
 
 # PHP data
 
