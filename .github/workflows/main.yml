@@ -36,7 +36,7 @@ jobs:
       run: composer code-style
 
     - name: Run PHPstan
-      run: composer static-analytics
+      run: composer static-analysis
 
     - name: Run test suite
-      run: composer test
+      run: composer tests

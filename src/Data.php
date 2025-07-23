@@ -48,10 +48,38 @@ abstract class Data
     }
 
     /**
+     * @return array<string, mixed>
+     */
+    public function all(): array
+    {
+        return get_object_vars($this);
+    }
+
+    /**
+     * @param array<int, string> $exclude
+     *
+     * @return array<string, mixed>
+     */
+    public function except(array $exclude = []): array
+    {
+        return array_diff_key($this->all(), array_flip($exclude));
+    }
+
+    /**
+     * @param array<int, string> $include
+     *
+     * @return array<string, mixed>
+     */
+    public function only(array $include = []): array
+    {
+        return array_intersect_key($this->all(), array_flip($include));
+    }
+
+    /**
      * @param array<int, ReflectionAttribute<PriorityInputAttributeInterface|InputAttributeInterface>> $attributes
      * @param array<string, mixed> $data
      *
-     * @return array<string, mixed> $data
+     * @return array<string, mixed>
      */
     private static function processAttributes(array $attributes, ReflectionParameter $param, array $data): array
     {
