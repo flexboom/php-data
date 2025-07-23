@@ -1,5 +1,5 @@
 ![PHPStan Level max](https://img.shields.io/badge/PHPStan-level%20max-brightgreen.svg?style=flat)
-[![CI](https://github.com/flexboom/php-data/actions/workflows/main.yml/badge.svg)](https://github.com/flexboom/php-data/actions/workflows/main.yml)
+[![Continuous Integration](https://github.com/flexboom/php-data/actions/workflows/main.yml/badge.svg)](https://github.com/flexboom/php-data/actions/workflows/main.yml)
 
 # PHP data
 
@@ -8,6 +8,8 @@ Getting data from e.g. a API response and convert it to strongly typed data can 
 ## Quick start
 
 Installation: `composer require flexboom/php-data`
+
+Instantiate a new object:
 
 ```
 use Flexboom\PhpData\Attributes\Input\MapInput;
@@ -25,7 +27,7 @@ class Product extends Data
     ) {}
 }
 
-$data = Product::from([
+$object = Product::from([
     'id' => 123,
     'published' => true,
     'name' => 'Suitcase',
@@ -33,6 +35,20 @@ $data = Product::from([
     'price' => 500.99,
 ]);
 ```
+
+Get the public properties as an array:
+
+```
+// All properties
+$object->all();
+
+// Exclude some properties
+$object->except(['published', 'price']);
+
+// Include only these properties
+$object->only(['id', 'name']);
+```
+
 - The order of elements in the array do not matter.
 - `#[MapInput('supplier_name')]` maps the element with the key `supplier_name` to `$supplierName` when instantiating the object.
 
