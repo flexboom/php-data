@@ -3,6 +3,8 @@
 namespace Flexboom\PhpData;
 
 use Flexboom\PhpData\Contracts\InputAttributeInterface;
+use Flexboom\PhpData\Contracts\LastOutputAttributeInterface;
+use Flexboom\PhpData\Contracts\OutputAttributeInterface;
 use Flexboom\PhpData\Contracts\PriorityInputAttributeInterface;
 use Flexboom\PhpData\Exceptions\ConstructorMissingException;
 use Flexboom\PhpData\Exceptions\ParameterInputMissingException;
@@ -13,6 +15,21 @@ use ReflectionParameter;
 
 abstract class Data
 {
+    /**
+     * @param array<int, ReflectionAttribute<PriorityInputAttributeInterface|InputAttributeInterface|LastOutputAttributeInterface|OutputAttributeInterface>> $attributes
+     * @param array<string, mixed> $data
+     *
+     * @return array<string, mixed>
+     */
+    private static function transformAttributes(array $attributes, ReflectionParameter $param, array $data): array
+    {
+        foreach ($attributes as $attribute) {
+            $data = $attribute->newInstance()->process($param, $data);
+        }
+
+        return $data;
+    }
+
     /**
      * @param array<string, mixed> $data
      */
@@ -30,8 +47,8 @@ abstract class Data
 
         foreach ($constructor->getParameters() as $param) {
             $name = $param->getName();
-            $data = self::processAttributes($param->getAttributes(PriorityInputAttributeInterface::class, ReflectionAttribute::IS_INSTANCEOF), $param, $data);
-            $data = self::processAttributes($param->getAttributes(InputAttributeInterface::class, ReflectionAttribute::IS_INSTANCEOF), $param, $data);
+            $data = self::transformAttributes($param->getAttributes(PriorityInputAttributeInterface::class, ReflectionAttribute::IS_INSTANCEOF), $param, $data);
+            $data = self::transformAttributes($param->getAttributes(InputAttributeInterface::class, ReflectionAttribute::IS_INSTANCEOF), $param, $data);
 
             if (!array_key_exists($name, $data)) {
                 if (!$param->isDefaultValueAvailable()) {
@@ -52,7 +69,18 @@ abstract class Data
      */
     public function all(): array
     {
-        return get_object_vars($this);
+        $reflection = new ReflectionClass(static::class);
+        $constructor = $reflection->getConstructor();
+        $data = get_object_vars($this);
+
+        if ($constructor instanceof ReflectionMethod) {
+            foreach ($constructor->getParameters() as $param) {
+                $data = self::transformAttributes($param->getAttributes(OutputAttributeInterface::class, ReflectionAttribute::IS_INSTANCEOF), $param, $data);
+                $data = self::transformAttributes($param->getAttributes(LastOutputAttributeInterface::class, ReflectionAttribute::IS_INSTANCEOF), $param, $data);
+            }
+        }
+
+        return $data;
     }
 
     /**
@@ -73,20 +101,5 @@ abstract class Data
     public function only(array $include = []): array
     {
         return array_intersect_key($this->all(), array_flip($include));
-    }
-
-    /**
-     * @param array<int, ReflectionAttribute<PriorityInputAttributeInterface|InputAttributeInterface>> $attributes
-     * @param array<string, mixed> $data
-     *
-     * @return array<string, mixed>
-     */
-    private static function processAttributes(array $attributes, ReflectionParameter $param, array $data): array
-    {
-        foreach ($attributes as $attribute) {
-            $data = $attribute->newInstance()->process($param, $data);
-        }
-
-        return $data;
     }
 }
