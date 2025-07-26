@@ -13,6 +13,7 @@ Instantiate a new object:
 
 ```
 use Flexboom\PhpData\Attributes\Input\MapInput;
+use Flexboom\PhpData\Attributes\Input\MapOutput;
 use Flexboom\PhpData\Data;
 
 class Product extends Data
@@ -22,6 +23,7 @@ class Product extends Data
         public readonly bool $published,
         public readonly string $name,
         #[MapInput('supplier_name')]
+        #[MapOutput('supplier_name')]
         public readonly string $supplierName,
         public readonly float $price,
     ) {}
@@ -39,18 +41,35 @@ $object = Product::from([
 Get the public properties as an array:
 
 ```
-// All properties
 $object->all();
 
-// Exclude some properties
+[
+    'id' => 123,
+    'published' => true,
+    'name' => 'Suitcase',
+    'supplier_name' => 'John Doe Inc.',
+    'price' => 500.99,
+]
+
 $object->except(['published', 'price']);
 
-// Include only these properties
+[
+    'id' => 123,
+    'name' => 'Suitcase',
+    'supplier_name' => 'John Doe Inc.',
+]
+
 $object->only(['id', 'name']);
+
+[
+    'id' => 123,
+    'name' => 'Suitcase',
+]
 ```
 
 - The order of elements in the array do not matter.
 - `#[MapInput('supplier_name')]` maps the element with the key `supplier_name` to `$supplierName` when instantiating the object.
+- `#[MapOutput('supplier_name')]` changes the property `supplierName` to `supplier_name`.
 
 ## Notes
 
