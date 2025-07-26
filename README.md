@@ -74,10 +74,10 @@ $object->only(['id', 'name']);
 ## Notes
 
 - Run tests: `./vendor/bin/phpunit --colors tests`
-- Fix code style: `./vendor/bin/php-cs-fixer fix src --dry-run --diff`
-- Static analysis: `./vendor/bin/phpstan`
+- Check code style: `./vendor/bin/php-cs-fixer fix src --dry-run --diff`
+- Run static analysis: `./vendor/bin/phpstan`
 
-[Spatie Laravel Data](https://github.com/spatie/laravel-data) is a great but this package is made with vanilla PHP in mind.
+[Spatie Laravel Data](https://github.com/spatie/laravel-data) is a great but this package is made for native PHP.
 
 ## License
 
